@@ -13,7 +13,7 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main className="bg-[#353535] w-full py-4">
+    <main className="bg-[#353535] w-full py-[17.8px]">
       <section className="">
         <Dashboard />
       </section>

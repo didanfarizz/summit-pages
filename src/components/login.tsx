@@ -2,6 +2,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 
 export default function login() {
   return (
@@ -25,7 +28,7 @@ export default function login() {
               <div className="bg-white w-1/3 h-0.5"></div>
             </div>
             <Link href={'/auth/signup'} className="text-white font-bold text-xl flex justify-center items-center py-7 hover:text-gray-500">
-                Sign Up
+              Sign Up
             </Link>
           </div>
         </div>
