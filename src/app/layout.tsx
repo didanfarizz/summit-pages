@@ -20,7 +20,7 @@ const poppins = Poppins({
 //   },
 // };
 
-const disableNavbar = ['/auth/login', '/auth/signup', '/main', '/pages'];
+const disableNavbar = ['/auth/login', '/auth/register', '/main', '/pages'];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

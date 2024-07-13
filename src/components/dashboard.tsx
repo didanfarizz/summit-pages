@@ -4,7 +4,7 @@ import Image from 'next/image';
 export default function Dashboard() {
   return (
     <div className="overflow-y-hidden">
-      <div className="w-full flex justify-between items-center absolute py-36 px-20">
+      <div className="w-full flex justify-between items-center absolute py-32 px-20">
           <div className="">
             <div className="w-10/12 h-0.5 bg-white my-4"></div>
             <div className="">
@@ -36,7 +36,7 @@ export default function Dashboard() {
             </div>
           </div>
       </div>
-      <div className="flex justify-center items-center py-9">
+      <div className="flex justify-center items-center py-[19px]">
         <Image src={'/buku.png'} alt="tumpukan buku" width={672} height={267} className="" />
       </div>
     </div>

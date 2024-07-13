@@ -42,7 +42,7 @@ export default function sidebarProfile() {
           </div>
         </div>
 
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center pb-10">
           <Link href='/' className="bg-[#c21c1c] w-32 h-12 flex justify-center items-center gap-1 rounded-[15px] hover:bg-[#9E1111]">
             <Image src={'/logout.png'} alt="logout icon" width={30} height={30} />
             <p className="text-center font-semibold text-white text-lg">Log Out</p>

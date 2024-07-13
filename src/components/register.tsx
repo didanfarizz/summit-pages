@@ -8,33 +8,34 @@ import { useTransition } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { LoginSchema } from '@/schemas';
+import { RegisterSchema } from '@/schemas';
 import { Button } from '@/components/ui/button';
 import * as z from 'zod';
 import { FormError } from './form-error';
 import { FormSuccess } from './form-success';
-import { login } from '../../actions/login';
+import { register } from '../../actions/register';
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
+      username: '',
       email: '',
       password: '',
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     setError("");
     setSuccess("");
 
     startTransition(() => {
-      login(values)
+      register(values)
       .then((data) => {
         setError(data.error);
         setSuccess(data.success);
@@ -43,7 +44,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="w-full h-screen bg-[#558ED5]">
+    <div className="w-full bg-[#558ED5]">
       <div className="flex justify-center items-center py-20">
         <div className="w-1/3 bg-[#353535] rounded-3xl">
           <Link href={'/'} className="flex justify-center items-center py-16">
@@ -51,11 +52,24 @@ export default function LoginForm() {
           </Link>
           <div className="">
             <div className="flex justify-center items-center">
-              <p className="text-white text-2xl font-bold">Welcome!</p>
+              <p className="text-white text-2xl font-bold">Daftar disini!</p>
             </div>
             <Form {...form}>
               <form action="" onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-5 px-10">
                 <div className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="username"
+                    render={({ field }) => (
+                      <FormItem className="">
+                        <FormLabel className="text-white">Username</FormLabel>
+                        <FormControl>
+                          <Input {...field} disabled={isPending} placeholder="Saipul Iwan" className="bg-[#D9D9D9] rounded-2xl"></Input>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  ></FormField>
                   <FormField
                     control={form.control}
                     name="email"
@@ -86,7 +100,7 @@ export default function LoginForm() {
                 <FormError message={error}></FormError>
                 <FormSuccess message={success}></FormSuccess>
                 <Button disabled={isPending} type="submit" className="w-full bg-[#558ED5] hover:bg-[#87bdfe]">
-                  Login
+                  Daftar
                 </Button>
               </form>
             </Form>
@@ -102,8 +116,8 @@ export default function LoginForm() {
               <p className="text-white px-8">OR</p>
               <div className="bg-white w-1/3 h-0.5"></div>
             </div>
-            <Link href={'/auth/register'} className="text-white font-bold text-xl flex justify-center items-center py-7 hover:text-gray-500">
-              Sign Up
+            <Link href={'/auth/login'} className="text-white font-bold text-xl flex justify-center items-center py-7 hover:text-gray-500">
+              Sign In
             </Link>
           </div>
         </div>
