@@ -45,7 +45,7 @@ export default function RegisterForm() {
 
   return (
     <div className="w-full bg-[#558ED5]">
-      <div className="flex justify-center items-center py-20">
+      <div className="flex justify-center items-center py-14">
         <div className="w-1/3 bg-[#353535] rounded-3xl">
           <Link href={'/'} className="flex justify-center items-center py-16">
             <Image src={'/logo-summit.png'} alt="logo-summit" width={200} height={100} />
