@@ -1,62 +1,28 @@
-// 'use client';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
-// import * as z from 'zod';
-// import { RegisterSchema } from '@/schemas';
-// import bcrypt from 'bcryptjs';
-// import { db } from '@/schemas/db';
+const prisma = new PrismaClient();
 
-// export const register = async (values: z.infer<typeof RegisterSchema>) => {
-//   const validatedFields = RegisterSchema.safeParse(values);
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'POST') {
+    const { username, email, password } = req.body;
 
-//   if (!validatedFields.success) {
-//     return { error: 'Password/Email anda salah' };
-//   }
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-//   const { username, email, password } = validatedFields.data;
-//   const hashedPassword = await bcrypt.hash(password, 10);
-
-//   const existingUser = await db.user.findUnique({
-//     where: {
-//       email,
-//     },
-//   });
-
-//   if (existingUser) {
-//     return { error: 'Email yang anda gunakan sudah terdaftar' };
-//   }
-
-//   await db.user.create({
-//     data: {
-//       username,
-//       email,
-//       password: hashedPassword,
-//     },
-//   });
-
-//   // TODO: Mengirimkan token verifikasi email
-
-//   return { success: 'Berhasil Terdaftar' };
-// };
-
-'use client';
-
-import * as z from 'zod';
-import { RegisterSchema } from '@/schemas';
-
-export const register = async (values: z.infer<typeof RegisterSchema>) => {
-  const response = await fetch('../api/register', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(values),
-  });
-
-  const result = await response.json();
-
-  if (!response.ok) {
-    return { error: result.error };
+    try {
+      const user = await prisma.user.create({
+        data: {
+          username,
+          email,
+          password: hashedPassword,
+        },
+      });
+      res.status(201).json(user);
+    } catch (error) {
+      res.status(500).json({ error: 'User already exists' });
+    }
+  } else {
+    res.status(405).json({ error: 'Method not allowed' });
   }
-
-  return { success: result.success };
-};
+}

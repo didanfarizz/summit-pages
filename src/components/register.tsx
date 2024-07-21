@@ -13,13 +13,32 @@ import { Button } from '@/components/ui/button';
 import * as z from 'zod';
 import { FormError } from './form-error';
 import { FormSuccess } from './form-success';
-import { register } from '../../actions/register';
+// import { register } from '../../actions/register';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 export default function RegisterForm() {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
 
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    try {
+      await axios.post('/api/auth/register', {
+        username,
+        email,
+        password,
+      });
+      router.push('/auth/login');
+    } catch (error) {
+      console.error(error);
+    }
+  };
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -34,13 +53,13 @@ export default function RegisterForm() {
     setError("");
     setSuccess("");
 
-    startTransition(() => {
-      register(values)
-      .then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
-      })
-    });
+    // startTransition(() => {
+    //   register(values)
+    //   .then((data) => {
+    //     setError(data.error);
+    //     setSuccess(data.success);
+    //   })
+    // });
   };
 
   return (
@@ -55,7 +74,7 @@ export default function RegisterForm() {
               <p className="text-white text-2xl font-bold">Daftar disini!</p>
             </div>
             <Form {...form}>
-              <form action="" onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-5 px-10">
+              <form action="" onSubmit={handleSubmit} className="space-y-4 py-5 px-10">
                 <div className="space-y-4">
                   <FormField
                     control={form.control}
@@ -64,7 +83,7 @@ export default function RegisterForm() {
                       <FormItem className="">
                         <FormLabel className="text-white">Username</FormLabel>
                         <FormControl>
-                          <Input {...field} disabled={isPending} placeholder="Saipul Iwan" className="bg-[#D9D9D9] rounded-2xl"></Input>
+                          <Input {...field} onChange={(e) => setUsername(e.target.value)} value={username} disabled={isPending} placeholder="Saipul Iwan" className="bg-[#D9D9D9] rounded-2xl" required></Input>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -77,7 +96,7 @@ export default function RegisterForm() {
                       <FormItem className="">
                         <FormLabel className="text-white">Email</FormLabel>
                         <FormControl>
-                          <Input {...field} disabled={isPending} placeholder="saipul@gmail.com" type="email" className="bg-[#D9D9D9] rounded-2xl"></Input>
+                          <Input {...field} onChange={(e) => setEmail(e.target.value)} value={email} disabled={isPending} placeholder="saipul@gmail.com" type="email" className="bg-[#D9D9D9] rounded-2xl" required></Input>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -90,7 +109,7 @@ export default function RegisterForm() {
                       <FormItem className="">
                         <FormLabel className="text-white">Password</FormLabel>
                         <FormControl>
-                          <Input {...field} disabled={isPending} placeholder="1234567" type="password" className="bg-[#D9D9D9] rounded-2xl"></Input>
+                          <Input {...field} onChange={(e) => setPassword(e.target.value)} value={password} disabled={isPending} placeholder="1234567" type="password" className="bg-[#D9D9D9] rounded-2xl" required></Input>
                         </FormControl>
                         <FormMessage />
                       </FormItem>

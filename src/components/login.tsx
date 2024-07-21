@@ -13,9 +13,14 @@ import { Button } from '@/components/ui/button';
 import * as z from 'zod';
 import { FormError } from './form-error';
 import { FormSuccess } from './form-success';
-import { login } from '../../actions/login';
+// import { login } from '../../actions/login';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
@@ -29,17 +34,32 @@ export default function LoginForm() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    setError("");
-    setSuccess("");
-
-    startTransition(() => {
-      login(values)
-      .then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
-      })
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    const result = await signIn('credentials', {
+      redirect: false,
+      email,
+      password,
     });
+
+    if (!result.error) {
+      router.push('/');
+    } else {
+      console.error(result.error);
+    }
+  };
+
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    setError('');
+    setSuccess('');
+
+    // startTransition(() => {
+    //   login(values)
+    //   .then((data) => {
+    //     setError(data.error);
+    //     setSuccess(data.success);
+    //   })
+    // });
   };
 
   return (
@@ -54,7 +74,7 @@ export default function LoginForm() {
               <p className="text-white text-2xl font-bold">Welcome!</p>
             </div>
             <Form {...form}>
-              <form action="" onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-5 px-10">
+              <form action="" onSubmit={handleSubmit} className="space-y-4 py-5 px-10">
                 <div className="space-y-4">
                   <FormField
                     control={form.control}

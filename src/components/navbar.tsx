@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { LoginButton } from './auth/login-button';
+import { signIn } from 'next-auth/react';
 
 export default function Navbar() {
   return (
@@ -11,9 +12,9 @@ export default function Navbar() {
       </Link>
       <div className="flex gap-4">
         <LoginButton>
-          <Link href={'/auth/login'} className="text-white font-semibold text-2xl flex justify-center items-center hover:text-[#9fc0e9]">
+          <button onClick={() => signIn('google')} className="text-white font-semibold text-2xl flex justify-center items-center hover:text-[#9fc0e9]">
             <p>Sign In</p>
-          </Link>
+          </button>
         </LoginButton>
         {/* <Link href={'/auth/signup'} className="w-32 h-10 flex justify-center items-center bg-white rounded-full text-[#558ED5] text-2xl font-semibold hover:text-white hover:bg-[#9fc0e9]">
           <p>Sign Up</p>

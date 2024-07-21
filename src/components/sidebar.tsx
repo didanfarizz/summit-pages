@@ -18,9 +18,9 @@ export default function sidebarProfile() {
           </div>
         </div>
         <div className="py-12 flex justify-center items-center">
-          <div className="w-52 h-96 bg-[#8b8b8b] rounded-[50px]">
-            <div className="w-52 h-72 bg-[#d9d9d9] rounded-[50px]">
-              <div className="flex flex-col justify-center py-6 px-9">
+          <div className="w-52 bg-[#8b8b8b] rounded-[50px]">
+            <div className="w-52 h-96 bg-[#d9d9d9] rounded-[50px]">
+              <div className="flex flex-col justify-center py-16 px-9">
                 <Image src={'/profile.png'} alt="profile" width={150} height={150} />
                 <div className="text-sm py-5">
                   <p className="">Hello,</p>
@@ -28,7 +28,7 @@ export default function sidebarProfile() {
                   <p>Status: Visitor</p>
                 </div>
               </div>
-              <div className="flex flex-col justify-center items-center py-3">
+              {/* <div className="flex flex-col justify-center items-center py-3">
                 <div className="flex gap-1">
                   <Image src="/history.png" alt="history" width={25} height={25} />
                   <p className="font-bold text-white">History</p>
@@ -37,7 +37,7 @@ export default function sidebarProfile() {
                   <Image src="/collection.png" alt="collection" width={25} height={25} />
                   <p className="font-bold text-white">Collection</p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
