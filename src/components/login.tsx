@@ -42,10 +42,10 @@ export default function LoginForm() {
       password,
     });
 
-    if (!result.error) {
+    if (!result?.error) {
       router.push('/');
     } else {
-      console.error(result.error);
+      console.error(result?.error);
     }
   };
 

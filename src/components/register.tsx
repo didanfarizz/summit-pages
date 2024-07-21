@@ -29,12 +29,12 @@ export default function RegisterForm() {
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
-      await axios.post('/api/auth/register', {
+      await axios.post('../../actions/register', {
         username,
         email,
         password,
       });
-      router.push('/auth/login');
+      router.push('/main');
     } catch (error) {
       console.error(error);
     }
