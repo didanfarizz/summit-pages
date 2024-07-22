@@ -4,6 +4,7 @@ import './globals.css';
 import Navbar from '@/components/navbar';
 import { usePathname } from 'next/navigation';
 import React from 'react';
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 const poppins = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800'],
@@ -30,10 +31,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <title>Summit Pages</title>
         <link rel="icon" href="/logo.png" />
       </head>
-      <body>
-        {!disableNavbar.includes(pathname) && <Navbar />}
-        {children}
-      </body>
+      <UserProvider>
+        <body>
+          {pathname && !disableNavbar.includes(pathname) && <Navbar />}
+          {children}
+        </body>
+      </UserProvider>
     </html>
   );
 }

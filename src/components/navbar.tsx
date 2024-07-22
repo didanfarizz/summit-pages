@@ -11,7 +11,7 @@ export default function Navbar() {
       </Link>
       <div className="flex gap-4">
         <LoginButton>
-          <Link href={'/auth/login'} className="text-white font-semibold text-2xl flex justify-center items-center hover:text-[#9fc0e9]">
+          <Link href={'/api/auth/login'} className="text-white font-semibold text-2xl flex justify-center items-center hover:text-[#9fc0e9]">
             <p>Sign In</p>
           </Link>
         </LoginButton>
