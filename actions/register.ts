@@ -1,11 +1,8 @@
+// actions/register.ts (client-side)
 'use client';
 
 import * as z from 'zod';
 import { RegisterSchema } from '@/schemas';
-import bcrypt from 'bcryptjs';
-import { db } from '@/lib/db';
-import { getUserByEmail } from '@/data/user';
-import { createUser } from '@/data/crateUser';
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values);
@@ -14,18 +11,19 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     return { error: 'Password/Email anda salah' };
   }
 
-  const { username, email, password } = validatedFields.data;
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const response = await fetch('/api/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(validatedFields.data),
+  });
 
-  const existingUser = await getUserByEmail(email)
-
-  if (existingUser) {
-    return { error: 'Email yang anda gunakan sudah terdaftar' };
+  if (!response.ok) {
+    const errorData = await response.json();
+    return { error: errorData.error };
   }
 
-  await createUser(email, username, hashedPassword);
-
-  // TODO: Mengirimkan token verifikasi email
-
-  return { success: 'Berhasil Terdaftar' };
+  const successData = await response.json();
+  return { success: successData.success };
 };

@@ -29,7 +29,7 @@ export default async function registerHandler(req: NextApiRequest, res: NextApiR
     });
 
     if (existingUser) {
-      return res.status(409).json({ error: 'Email already registered' });
+      return res.status(409).json({ error: 'Email Telah Digunakan' });
     }
 
     await prisma.user.create({
@@ -40,8 +40,8 @@ export default async function registerHandler(req: NextApiRequest, res: NextApiR
       },
     });
 
-    return res.status(201).json({ success: 'User registered successfully' });
+    return res.status(201).json({ success: 'Berhasil Terdaftar' });
   } catch (error) {
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: 'Terdapat Kesalahan' });
   }
 }
